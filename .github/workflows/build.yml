@@ -27,11 +27,12 @@ jobs:
         libbz2-dev libgdbm-dev liblzma-dev wget curl unzip
         pip install --upgrade pip setuptools wheel cython buildozer
 
-        # Установка Android SDK Command Line Tools
+        # Android SDK Command Line Tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip -d $HOME/android-sdk
+        unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools/tmp
         mkdir -p $HOME/android-sdk/cmdline-tools/latest
-        mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+        mv $HOME/android-sdk/cmdline-tools/tmp/* $HOME/android-sdk/cmdline-tools/latest/
+        rm -rf $HOME/android-sdk/cmdline-tools/tmp
 
         export ANDROID_HOME=$HOME/android-sdk
         export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
