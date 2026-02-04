@@ -34,22 +34,23 @@ jobs:
         mkdir -p $HOME/android-sdk/cmdline-tools/tmp
         mkdir -p $HOME/android-sdk/cmdline-tools/latest
 
-        # Распаковываем во временную папку и переносим в latest
+        # Распаковываем и переносим внутреннюю папку cmdline-tools в latest
         unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools/tmp
-        mv $HOME/android-sdk/cmdline-tools/tmp/* $HOME/android-sdk/cmdline-tools/latest/
+        mv $HOME/android-sdk/cmdline-tools/tmp/cmdline-tools $HOME/android-sdk/cmdline-tools/latest/
         rm -rf $HOME/android-sdk/cmdline-tools/tmp
 
         export ANDROID_HOME=$HOME/android-sdk
-        export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+        export PATH=$ANDROID_HOME/cmdline-tools/latest/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
 
+        # Устанавливаем необходимые пакеты Android SDK
         yes | sdkmanager --licenses
         sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
     - name: Build APK
       run: |
-        # Экспортируем PATH прямо перед сборкой, чтобы Buildozer видел sdk и java
+        # Экспортируем PATH прямо перед сборкой
         export ANDROID_HOME=$HOME/android-sdk
-        export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
+        export PATH=$ANDROID_HOME/cmdline-tools/latest/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
         buildozer android debug
       shell: bash
 
