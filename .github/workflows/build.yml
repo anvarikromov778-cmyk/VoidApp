@@ -47,6 +47,9 @@ jobs:
 
     - name: Build APK
       run: |
+        # Экспортируем PATH прямо перед сборкой, чтобы Buildozer видел sdk и java
+        export ANDROID_HOME=$HOME/android-sdk
+        export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
         buildozer android debug
       shell: bash
 
